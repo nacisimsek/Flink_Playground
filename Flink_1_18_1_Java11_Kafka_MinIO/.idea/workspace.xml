@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cd4e1a56-cc78-4265-b05a-cfaddc381d56" name="Changes" comment="Git settings changed">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="nacisimsek &lt;naci86@gmail.com&gt;" />
+        <option value="Naci Simsek &lt;137160344+nacisimsek@users.noreply.github.com&gt;" />
+        <option value="nacisimsek" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SIGN_OFF_COMMIT" value="true" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="b281535a-5632-4930-9911-4f397332b61a" />
+        <option name="url" value="https://github.com/nacisimsek/Flink-1-18-1_11_Minicluster_WebUI" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2fg3lyv7m1qdZFJCSHca2HBK7DV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Volumes/D/Technical/flink/Projects/Flink_1_18_1_Java11_Kafka_MinIO&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="DataStreamJob" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
+      <option name="MAIN_CLASS_NAME" value="naci.grpId.DataStreamJob" />
+      <module name="Flink_1_18_1_Java11_Kafka_MinIO" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="naci.grpId.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cd4e1a56-cc78-4265-b05a-cfaddc381d56" name="Changes" comment="" />
+      <created>1714209049140</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1714209049140</updated>
+      <workItem from="1714209050143" duration="449000" />
+      <workItem from="1714209582249" duration="5846000" />
+      <workItem from="1714332090461" duration="3698000" />
+      <workItem from="1714335860152" duration="978000" />
+      <workItem from="1714338251713" duration="588000" />
+      <workItem from="1714551002037" duration="1429000" />
+      <workItem from="1714573222006" duration="955000" />
+    </task>
+    <task id="LOCAL-00001" summary="First Commit Flink 1.18.1 pom config and minicluster execution with Flink WebUI">
+      <option name="closed" value="true" />
+      <created>1714333872308</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1714333872308</updated>
+    </task>
+    <task id="LOCAL-00002" summary="First Commit Flink 1.18.1 pom config and minicluster execution with Flink WebUI&#10;&#10;Signed-off-by: nacisimsek &lt;naci86@gmail.com&gt;">
+      <option name="closed" value="true" />
+      <created>1714334228415</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1714334228415</updated>
+    </task>
+    <task id="LOCAL-00003" summary="First Commit Flink 1.18.1 pom config and minicluster execution with Flink WebUI&#10;&#10;Signed-off-by: nacisimsek &lt;naci86@gmail.com&gt;">
+      <option name="closed" value="true" />
+      <created>1714334521966</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1714334521966</updated>
+    </task>
+    <task id="LOCAL-00004" summary="First Commit Flink 1.18.1 pom config and minicluster execution with Flink WebUI&#10;&#10;Signed-off-by: nacisimsek &lt;naci86@gmail.com&gt;">
+      <option name="closed" value="true" />
+      <created>1714334717007</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1714334717007</updated>
+    </task>
+    <task id="LOCAL-00005" summary="sleep changed">
+      <option name="closed" value="true" />
+      <created>1714334811651</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1714334811651</updated>
+    </task>
+    <task id="LOCAL-00006" summary="sleep changed to 1002">
+      <option name="closed" value="true" />
+      <created>1714334937763</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1714334937763</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Git settings changed">
+      <option name="closed" value="true" />
+      <created>1714335902427</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1714335902427</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="First Commit Flink 1.18.1 pom config and minicluster execution with Flink WebUI" />
+    <MESSAGE value="First Commit Flink 1.18.1 pom config and minicluster execution with Flink WebUI&#10;&#10;Signed-off-by: nacisimsek &lt;naci86@gmail.com&gt;" />
+    <MESSAGE value="sleep changed" />
+    <MESSAGE value="sleep changed to 1002" />
+    <MESSAGE value="Git settings changed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Git settings changed" />
+  </component>
+</project>
