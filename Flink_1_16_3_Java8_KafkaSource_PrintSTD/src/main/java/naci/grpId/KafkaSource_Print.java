@@ -19,7 +19,7 @@ public class KafkaSource_Print {
 
         // Define the specific offsets for the partitions
         Map<TopicPartition, Long> specificOffsets = new HashMap<>();
-        specificOffsets.put(new TopicPartition("topic_test", 0), 25L); // Start from offset 10 for partition 0
+        specificOffsets.put(new TopicPartition("topic_test", 0), 4L); // Start from offset 4 for partition 0
 
         KafkaSource<String> kafkaSource = KafkaSource
                 .<String>builder()

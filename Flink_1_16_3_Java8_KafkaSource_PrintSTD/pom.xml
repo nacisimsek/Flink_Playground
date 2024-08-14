@@ -22,7 +22,7 @@ under the License.
 
 	<groupId>naci.grpId</groupId>
 	<artifactId>Flink_1_16_3_Java8_KafkaSource_PrintSTD</artifactId>
-	<version>1.5</version>
+	<version>1.17</version>
 	<packaging>jar</packaging>
 
 	<name>Flink_1_16_3_Java8_KafkaSource_PrintSTD</name>
@@ -48,6 +48,11 @@ under the License.
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
+		</repository>
+		<repository>
+			<id>ververica</id>
+			<name>Ververica Repository</name>
+			<url>https://ververica.jfrog.io/artifactory/vvp-flink-release</url>
 		</repository>
 	</repositories>
 
@@ -143,11 +148,52 @@ under the License.
 		</dependency>
 		-->
 		<!-- https://mvnrepository.com/artifact/org.apache.flink/flink-connector-kafka -->
+		<!-- Local Kafka connector dependency -->
+		<!-- Exclude the original Flink Kafka connector -->
+
+
+<!--		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-connector-kafka</artifactId>
+			<version>${flink.version}</version>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.flink</groupId>
+					<artifactId>flink-connector-kafka</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		&lt;!&ndash; Add the fixed Kafka connector jar &ndash;&gt;
 		<dependency>
 			<groupId>org.apache.flink</groupId>
 			<artifactId>flink-connector-kafka</artifactId>
 			<version>1.16.3</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/flink-connector-kafka-1.16.3.jar</systemPath>
+		</dependency>-->
+
+
+		<!-- Add the fixed Kafka connector jar -->
+<!--		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-connector-kafka</artifactId>
+			<version>1.16.3-spring3</version>
+		</dependency>-->
+
+		<dependency>
+			<groupId>com.ververica.flink</groupId>
+			<artifactId>flink-connector-kafka</artifactId>
+			<version>1.16.3-spring3</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-clients</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+
 		<!-- Add logging framework, to produce console output when running in the IDE. -->
 		<!-- These dependencies are excluded from the application JAR by default. -->
 		<dependency>
