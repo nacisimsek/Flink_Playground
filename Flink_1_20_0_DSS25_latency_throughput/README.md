@@ -1,4 +1,4 @@
-# Flink Latency Lab 2025
+# Flink Latency Lab 2025®
 
 Lab to showcase different Apache Flink latency optimization techniques with product data, updated for Apache Flink 1.20.2.
 
