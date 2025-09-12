@@ -1,0 +1,159 @@
+# =================================
+# Flink Playground - Unified .gitignore
+# =================================
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE Files
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# VS Code
+.vscode/
+
+# Flink Specific
+# Checkpoints and savepoints
+checkpoints/
+savepoints/
+flink-savepoints/
+flink-checkpoints/
+
+# Flink logs and output
+*.log
+logs/
+output/
+MinIO_output/
+
+# Flink web UI temp files
+.flink/
+
+# Kafka/Docker related
+# Docker
+.dockerignore
+Dockerfile.bak
+
+# Kafka data
+kafka-logs/
+zookeeper/
+
+# Python (for PyFlink projects)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv
+
+# OS Files
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.fseventsd
+.TemporaryItems
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.nfs*
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# Security
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore
+*.truststore
+client.properties
+
+# Data files (add specific patterns as needed)
+*.csv.bak
+*.json.bak
+*.parquet
+*.avro
+
+# Compiled Flink jobs
+flink-*.jar
+
+# Test outputs
+test-output/
+test-results/
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# Package managers
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
