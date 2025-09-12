@@ -1,0 +1,162 @@
+# ==============================================================================
+# Flink Configuration for Latency-Optimized Product Analytics
+# Merged configuration for local development and latency optimization
+# ==============================================================================
+
+# ==============================================================================
+# LATENCY OPTIMIZATION SETTINGS (Based on Flink Optimization Presentation)
+# ==============================================================================
+
+# 1. Network Buffer Timeout (Reduced from 100ms default to 10ms for low latency)
+taskmanager.network.buffer-timeout: 10ms
+
+# 2. Watermark Generation Interval (Reduced from 200ms default to 100ms)
+pipeline.auto-watermark-interval: 100ms
+
+# 3. Latency Tracking Configuration
+metrics.latency.interval: 1000
+metrics.latency.granularity: operator
+latency.tracking.interval: 1000
+latency.tracking.enabled: true
+
+# ==============================================================================
+# METRICS CONFIGURATION FOR MONITORING
+# ==============================================================================
+
+# JMX Metrics Reporter (for JConsole/VisualVM monitoring)
+metrics.reporters: jmx
+metrics.reporter.jmx.factory.class: org.apache.flink.metrics.jmx.JMXReporterFactory
+metrics.reporter.jmx.port: 8789
+
+# Prometheus Metrics Reporter (for Grafana dashboards)
+# Uncomment the following lines to enable Prometheus metrics
+# metrics.reporter.prometheus.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory
+# metrics.reporter.prometheus.host: localhost
+# metrics.reporter.prometheus.port: 9249
+
+# ==============================================================================
+# RESOURCE CONFIGURATION (Optimized for Latency Testing)
+# ==============================================================================
+
+# Job Manager Configuration
+jobmanager.memory.process.size: 512m
+jobmanager.memory.jvm-heap.size: 256m
+jobmanager.bind-host: localhost
+jobmanager.rpc.address: localhost
+jobmanager.rpc.port: 6123
+
+# Task Manager Configuration (Ensure <70% CPU utilization as recommended)
+taskmanager.numberOfTaskSlots: 1
+taskmanager.memory.process.size: 1024m  
+taskmanager.memory.task.heap.size: 512m
+taskmanager.memory.managed.size: 128m
+taskmanager.cpu.cores: 1
+
+# Network Configuration (Optimized for low latency)
+taskmanager.memory.network.min: 64mb
+taskmanager.memory.network.max: 64mb
+taskmanager.numberOfNetworkBuffers: 2048
+
+# Execution Configuration 
+parallelism.default: 1
+
+# ==============================================================================
+# CHECKPOINTING CONFIGURATION (Optimized for latency)
+# ==============================================================================
+
+execution.checkpointing.mode: EXACTLY_ONCE
+execution.checkpointing.interval: 20000ms
+execution.checkpointing.min-pause: 10000ms
+execution.checkpointing.timeout: 60000
+execution.checkpointing.max-concurrent-checkpoints: 1
+execution.checkpointing.unaligned: false
+
+# ==============================================================================
+# STATE BACKEND CONFIGURATION 
+# ==============================================================================
+
+# Use HashMap for small state (as recommended in presentation for low latency)
+# Switch to RocksDB for larger state sizes
+state.backend: hashmap
+state.checkpoints.dir: file:///tmp/flink-checkpoints
+state.savepoints.dir: file:///tmp/flink-savepoints
+
+# Rocksdb settings (when using rocksdb state backend)
+state.backend.rocksdb.compaction.level.use-dynamic-size: true
+state.backend.rocksdb.compaction.level.max-size-level-base: 128mb
+
+# ==============================================================================
+# DEVELOPMENT & MONITORING SETTINGS
+# ==============================================================================
+
+# Restart Strategy
+restart-strategy: fixed-delay
+restart-strategy.fixed-delay.attempts: 3
+restart-strategy.fixed-delay.delay: 10s
+
+# Logging
+rootLogger.level: INFO
+logger.com.ververica.lablatency.level: INFO
+logger.akka.level: INFO
+logger.kafka.level: WARN
+logger.hadoop.level: WARN
+logger.zookeeper.level: WARN
+
+# Web UI Configuration
+rest.port: 8081
+rest.address: localhost
+rest.bind-address: localhost
+rest.bind-port: 8081
+web.port: 8081
+web.upload.dir: /tmp/flink-web-uploads
+
+# ==============================================================================
+# ADVANCED LATENCY SETTINGS (Presentation Techniques)
+# ==============================================================================
+
+# Object Reuse (Can improve throughput and reduce latency during spikes)
+# Enable with caution - see presentation notes about data stream API usage
+# pipeline.object-reuse: true
+
+# Buffer Debloating (Flink 1.14+ feature for reducing checkpoint alignment time)
+# Uncomment to enable buffer debloating with 1 second target
+# taskmanager.network.memory.buffer-debloating.enabled: true
+# taskmanager.network.memory.buffer-debloating.target: 1s
+
+# ==============================================================================
+# PERFORMANCE SETTINGS (Resource Controlled for Testing)
+# ==============================================================================
+
+# CPU and Resource Controls for Local Testing
+cluster.evenly-spread-out-slots: false
+
+# Akka settings for reduced resource usage
+akka.ask.timeout: 15s
+
+# ==============================================================================
+# JVM CONFIGURATION
+# ==============================================================================
+
+# Different GC options you can set
+env.java.opts.all: -XX:+UseG1GC -XX:MaxGCPauseMillis=200
+env.java.opts.jobmanager: -Xmx768m -Xms512m -XX:MaxDirectMemorySize=512m
+env.java.opts.taskmanager: -Xmx1536m -Xms1024m -XX:MaxDirectMemorySize=1024m
+
+# ==============================================================================
+# RUNTIME SETTINGS
+# ==============================================================================
+
+execution.runtime-mode: STREAMING
+# pipeline.jars: []
+# pipeline.classpaths: []
+
+# High Availability (disabled for local development)
+high-availability: none
+
+# Network Buffer Configuration (optimized for low latency)
+taskmanager.network.memory.buffers-per-channel: 2
+taskmanager.network.memory.floating-buffers-per-gate: 8
+
+# Advanced Latency Settings
+pipeline.latency: 5
+execution.buffer-timeout: 10ms
