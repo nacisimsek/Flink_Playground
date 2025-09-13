@@ -1,0 +1,220 @@
+# External-Ready Kafka Cluster with XFS - 3 Brokers
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-0
+  namespace: vvp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+      instance: kafka-0
+  template:
+    metadata:
+      labels:
+        app: kafka
+        instance: kafka-0
+    spec:
+      hostname: kafka-0
+      subdomain: kafka-service
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: kafka
+          image: apache/kafka:latest
+          ports:
+            - containerPort: 9092
+              name: kafka-internal
+            - containerPort: 9093
+              name: controller
+            - containerPort: 9094
+              name: kafka-external
+          volumeMounts:
+            - name: kafka-storage
+              mountPath: /var/lib/kafka/data
+          env:
+            - name: KAFKA_PROCESS_ROLES
+              value: "broker,controller"
+            - name: KAFKA_CONTROLLER_LISTENER_NAMES
+              value: "CONTROLLER"
+            - name: KAFKA_LISTENERS
+              value: "INTERNAL://:9092,EXTERNAL://:9094,CONTROLLER://:9093"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT"
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: "INTERNAL"
+            - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+              value: "1@kafka-0.kafka-service:9093,2@kafka-1.kafka-service:9093,3@kafka-2.kafka-service:9093"
+            - name: KAFKA_NODE_ID
+              value: "1"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "INTERNAL://kafka-0.kafka-service:9092,EXTERNAL://localhost:19092"
+            - name: KAFKA_LOG_DIRS
+              value: "/var/lib/kafka/data"
+            # Memory optimization settings
+            - name: KAFKA_HEAP_OPTS
+              value: "-Xmx512m -Xms512m"
+            - name: KAFKA_JVM_PERFORMANCE_OPTS
+              value: "-server -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35"
+          resources:
+            requests:
+              memory: "768Mi"    # Reduced from 2Gi
+              cpu: "200m"        # Reduced from 1000m
+            limits:
+              memory: "1Gi"      # Reduced from 2Gi
+              cpu: "500m"        # Reduced from 1000m
+      volumes:
+        - name: kafka-storage
+          persistentVolumeClaim:
+            claimName: kafka-pvc-0
+
+---
+# Kafka Broker 1
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-1
+  namespace: vvp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+      instance: kafka-1
+  template:
+    metadata:
+      labels:
+        app: kafka
+        instance: kafka-1
+    spec:
+      hostname: kafka-1
+      subdomain: kafka-service
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: kafka
+          image: apache/kafka:latest
+          ports:
+            - containerPort: 9092
+              name: kafka-internal
+            - containerPort: 9093
+              name: controller
+            - containerPort: 9094
+              name: kafka-external
+          volumeMounts:
+            - name: kafka-storage
+              mountPath: /var/lib/kafka/data
+          env:
+            - name: KAFKA_PROCESS_ROLES
+              value: "broker,controller"
+            - name: KAFKA_CONTROLLER_LISTENER_NAMES
+              value: "CONTROLLER"
+            - name: KAFKA_LISTENERS
+              value: "INTERNAL://:9092,EXTERNAL://:9094,CONTROLLER://:9093"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT"
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: "INTERNAL"
+            - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+              value: "1@kafka-0.kafka-service:9093,2@kafka-1.kafka-service:9093,3@kafka-2.kafka-service:9093"
+            - name: KAFKA_NODE_ID
+              value: "2"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "INTERNAL://kafka-1.kafka-service:9092,EXTERNAL://localhost:19093"
+            - name: KAFKA_LOG_DIRS
+              value: "/var/lib/kafka/data"
+            # Memory optimization settings
+            - name: KAFKA_HEAP_OPTS
+              value: "-Xmx512m -Xms512m"
+            - name: KAFKA_JVM_PERFORMANCE_OPTS
+              value: "-server -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35"
+          resources:
+            requests:
+              memory: "768Mi"    # Reduced from 2Gi
+              cpu: "200m"        # Reduced from 1000m
+            limits:
+              memory: "1Gi"      # Reduced from 2Gi
+              cpu: "500m"        # Reduced from 1000m
+      volumes:
+        - name: kafka-storage
+          persistentVolumeClaim:
+            claimName: kafka-pvc-1
+
+---
+# Kafka Broker 2
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-2
+  namespace: vvp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+      instance: kafka-2
+  template:
+    metadata:
+      labels:
+        app: kafka
+        instance: kafka-2
+    spec:
+      hostname: kafka-2
+      subdomain: kafka-service
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: kafka
+          image: apache/kafka:latest
+          ports:
+            - containerPort: 9092
+              name: kafka-internal
+            - containerPort: 9093
+              name: controller
+            - containerPort: 9094
+              name: kafka-external
+          volumeMounts:
+            - name: kafka-storage
+              mountPath: /var/lib/kafka/data
+          env:
+            - name: KAFKA_PROCESS_ROLES
+              value: "broker,controller"
+            - name: KAFKA_CONTROLLER_LISTENER_NAMES
+              value: "CONTROLLER"
+            - name: KAFKA_LISTENERS
+              value: "INTERNAL://:9092,EXTERNAL://:9094,CONTROLLER://:9093"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT"
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: "INTERNAL"
+            - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+              value: "1@kafka-0.kafka-service:9093,2@kafka-1.kafka-service:9093,3@kafka-2.kafka-service:9093"
+            - name: KAFKA_NODE_ID
+              value: "3"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "INTERNAL://kafka-2.kafka-service:9092,EXTERNAL://localhost:19094"
+            - name: KAFKA_LOG_DIRS
+              value: "/var/lib/kafka/data"
+            # Memory optimization settings
+            - name: KAFKA_HEAP_OPTS
+              value: "-Xmx512m -Xms512m"
+            - name: KAFKA_JVM_PERFORMANCE_OPTS
+              value: "-server -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35"
+          resources:
+            requests:
+              memory: "768Mi"    # Reduced from 2Gi
+              cpu: "200m"        # Reduced from 1000m
+            limits:
+              memory: "1Gi"      # Reduced from 2Gi
+              cpu: "500m"        # Reduced from 1000m
+      volumes:
+        - name: kafka-storage
+          persistentVolumeClaim:
+            claimName: kafka-pvc-2

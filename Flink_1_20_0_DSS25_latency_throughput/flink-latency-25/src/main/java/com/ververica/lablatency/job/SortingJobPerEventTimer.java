@@ -87,7 +87,7 @@ public class SortingJobPerEventTimer {
                 .setBootstrapServers(kafkaAddress)
                 .setTopics(topic)
                 .setGroupId(group)
-                .setStartingOffsets(OffsetsInitializer.latest())
+                .setStartingOffsets(OffsetsInitializer.earliest())
                 .setDeserializer(new KafkaDeSerSchema())
                 .build();
 
