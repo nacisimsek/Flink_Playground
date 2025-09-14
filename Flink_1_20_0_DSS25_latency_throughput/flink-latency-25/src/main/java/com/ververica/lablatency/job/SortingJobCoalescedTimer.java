@@ -90,7 +90,7 @@ public class SortingJobCoalescedTimer {
                 .setBootstrapServers(kafkaAddress)
                 .setTopics(topic)
                 .setGroupId(group)
-                .setStartingOffsets(OffsetsInitializer.earliest())
+                .setStartingOffsets(OffsetsInitializer.latest())
                 .setDeserializer(new KafkaDeSerSchema())
                 .build();
 
