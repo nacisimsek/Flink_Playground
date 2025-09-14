@@ -118,6 +118,46 @@ mvn clean package
 
 This project demonstrates various Apache Flink optimization techniques for reducing latency in stream processing applications using product data streams. Built with modern Apache Flink 1.20.2 APIs and optimized for performance testing.
 
+## Latency Measurement in Flink Jobs
+
+When talking about latency, different people may mean different things.
+
+- **LatencyMarkers in Flink** measure the time it takes for them to travel from each source operator to each downstream operator. As LatencyMarkers bypass the user function in operators, the measured latencies do not reflect the entire end-to-end latency but only part of it.
+- **State access latency**: Flink can track the response latency when state is read/written.
+- **Manual measurement**: You can also manually measure the time taken by some operators, or get it with profilers.
+
+Reference: [StackOverflow: Latency Monitoring in Flink Application](https://stackoverflow.com/questions/56578919/latency-monitoring-in-flink-application)
+
+However, what users care about most is the **end-to-end latency**, including the time spent in user functions, in the framework, and when state is accessed. That is exactly what we focus on in this project.
+
+### Latency Measurement Scenarios
+
+There are two scenarios:
+
+1. **Simple transformation** (no timers or complex event-time logic):
+  - Pipeline produces one output event for each input event.
+  - Latency is measured as the processing delay: \( t_2 - t_1 \) (output time minus input time).
+
+2. **Complex event-time logic** (timers, aggregation, windowing, etc.):
+  - Latency is measured as the event time lag: \( \text{current processing time} - \text{current watermark} \).
+  - This gives the difference between the expected output time and the actual output time.
+
+In either scenario, we capture a histogram and show the 99th percentile of the end-to-end latency.
+
+### Latency Calculation Summary Table
+
+| **Class**                       | **Latency Formula**                                 | **Scenario**         | **What It Measures**                                   | **Components Included**                                   |
+|----------------------------------|----------------------------------------------------|----------------------|--------------------------------------------------------|----------------------------------------------------------|
+| EnrichingJobSync.java            | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | End-to-end lag from event creation to enrichment        | Kafka → Flink network delay, queueing, enrichment, cache |
+| EnrichingJobAsync.java           | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | End-to-end lag including async enrichment               | Kafka → Flink network delay, async enrichment, cache     |
+| IngestingJob.java                | *No latency calculation*                            | N/A                 | Data generation only                                   | Produces events with timestamps                          |
+| SortingJobCoalescedTimer.java    | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | Lag including sorting and coalesced timer logic         | Kafka → Flink delay, sorting, timer coalescing           |
+| SortingJobPerEventTimer.java     | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | Lag including sorting and per-event timer logic         | Kafka → Flink delay, sorting, per-event timer            |
+| WindowingJob.java                | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | Lag including windowing and aggregation                 | Kafka → Flink delay, windowing, aggregation              |
+| WindowingJobNoAggregation.java   | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | Lag including windowing (no aggregation)                | Kafka → Flink delay, windowing                           |
+
+**Note:** All jobs except `IngestingJob.java` use event time lag as their latency metric, calculated as the difference between current processing time and the original event timestamp. No job currently measures pure operator processing delay (`t2 - t1` within the operator). The metric is tracked using Flink’s `DescriptiveStatisticsHistogram` for 99th percentile latency. This approach measures end-to-end freshness of data, not just operator performance.
+
 ### Project Features
 
 - **Modern Flink 1.20.2**: Uses latest APIs and best practices
