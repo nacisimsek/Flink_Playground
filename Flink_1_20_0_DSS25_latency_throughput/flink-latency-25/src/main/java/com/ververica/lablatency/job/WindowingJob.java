@@ -62,8 +62,10 @@ public class WindowingJob {
         Configuration config = GlobalConfiguration.loadConfiguration();
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(config);
 
+
+        
         final String jobName = params.get("job-name", WindowingJob.class.getSimpleName());
-        final String kafkaAddress = params.get("kafka", "localhost:9093");
+        final String kafkaAddress = params.get("kafka", "localhost:19092,localhost:19093,localhost:19094");
         final String topic = params.get("topic", "lablatency");
         final String group = params.get("group", "lablatency");
 
@@ -75,7 +77,7 @@ public class WindowingJob {
                 .setBootstrapServers(kafkaAddress)
                 .setTopics(topic)
                 .setGroupId(group)
-                .setStartingOffsets(OffsetsInitializer.latest())
+                .setStartingOffsets(OffsetsInitializer.earliest())
                 .setDeserializer(new KafkaDeSerSchema())
                 .build();
 

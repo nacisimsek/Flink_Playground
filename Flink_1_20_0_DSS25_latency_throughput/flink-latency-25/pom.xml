@@ -6,7 +6,7 @@
 
     <groupId>com.ververica</groupId>
     <artifactId>flink-latency-25</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Flink Latency Lab 2025</name>
@@ -120,6 +120,16 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <!-- Exclude flink-conf.yaml from JAR to prevent conflicts in K8s -->
+                    <exclude>flink-conf.yaml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

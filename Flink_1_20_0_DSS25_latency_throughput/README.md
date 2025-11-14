@@ -149,12 +149,12 @@ In either scenario, we capture a histogram and show the 99th percentile of the e
 | **Class**                       | **Latency Formula**                                 | **Scenario**         | **What It Measures**                                   | **Components Included**                                   |
 |----------------------------------|----------------------------------------------------|----------------------|--------------------------------------------------------|----------------------------------------------------------|
 | EnrichingJobSync.java            | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | End-to-end lag from event creation to enrichment        | Kafka → Flink network delay, queueing, enrichment, cache |
-| EnrichingJobAsync.java           | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | End-to-end lag including async enrichment               | Kafka → Flink network delay, async enrichment, cache     |
+| EnrichingJobAsync.java           | `System.currentTimeMillis() - product.f1`           | Event Time Lag       | End-to-end lag including async enrichment               | Kafka → Flink network delay, async enrichment, cache     |
 | IngestingJob.java                | *No latency calculation*                            | N/A                 | Data generation only                                   | Produces events with timestamps                          |
-| SortingJobCoalescedTimer.java    | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | Lag including sorting and coalesced timer logic         | Kafka → Flink delay, sorting, timer coalescing           |
-| SortingJobPerEventTimer.java     | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | Lag including sorting and per-event timer logic         | Kafka → Flink delay, sorting, per-event timer            |
-| WindowingJob.java                | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | Lag including windowing and aggregation                 | Kafka → Flink delay, windowing, aggregation              |
-| WindowingJobNoAggregation.java   | `System.currentTimeMillis() - ctx.timestamp()`      | Event Time Lag       | Lag including windowing (no aggregation)                | Kafka → Flink delay, windowing                           |
+| SortingJobCoalescedTimer.java    | `System.currentTimeMillis() - value.f1`             | Event Time Lag       | Lag including sorting and coalesced timer logic         | Kafka → Flink delay, sorting, timer coalescing           |
+| SortingJobPerEventTimer.java     | `System.currentTimeMillis() - timestamp`            | Event Time Lag       | Lag including sorting and per-event timer logic         | Kafka → Flink delay, sorting, per-event timer            |
+| WindowingJob.java                | `System.currentTimeMillis() - window.getEnd()`      | Event Time Lag       | Lag including windowing and aggregation                 | Kafka → Flink delay, windowing, aggregation              |
+| WindowingJobNoAggregation.java   | `System.currentTimeMillis() - window.getEnd()`      | Event Time Lag       | Lag including windowing (no aggregation)                | Kafka → Flink delay, windowing                           |
 
 **Note:** All jobs except `IngestingJob.java` use event time lag as their latency metric, calculated as the difference between current processing time and the original event timestamp. No job currently measures pure operator processing delay (`t2 - t1` within the operator). The metric is tracked using Flink’s `DescriptiveStatisticsHistogram` for 99th percentile latency. This approach measures end-to-end freshness of data, not just operator performance.
 
@@ -193,6 +193,7 @@ Applies sliding time windows to aggregate product data by product name. This is 
 2. Proper watermark handling with bounded out-of-orderness
 3. Event time lag metrics for performance monitoring
 4. Product price aggregation over time windows
+5. **Latency calculation uses `System.currentTimeMillis() - window.getEnd()` (not `ctx.timestamp()`). This measures the lag between the end of the event time window and the time the result is emitted.**
 
 **Run Configuration:**
 ```
@@ -202,6 +203,8 @@ Applies sliding time windows to aggregate product data by product name. This is 
 
 ### WindowingJobNoAggregation
 Alternative windowing implementation without incremental aggregation - demonstrates performance differences when using different aggregation strategies.
+
+**Note:** Latency calculation in this job also uses `System.currentTimeMillis() - window.getEnd()`, measuring the lag from window end to result emission.
 
 ### EnrichingJobSync / EnrichingJobAsync
 Enriches product data with external service information using synchronous or asynchronous processing patterns.
